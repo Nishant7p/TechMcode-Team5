@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import { BRAND } from "../lib/brand";
+import { DEMO_MODE } from "../lib/api";
 
 function GithubMark({ size = 14 }: { size?: number }) {
   return (
@@ -17,6 +18,7 @@ export default function TopBar() {
   const [online, setOnline] = useState<boolean | null>(null);
 
   useEffect(() => {
+    if (DEMO_MODE) return;
     let active = true;
     fetch("/api/health", { cache: "no-store" })
       .then((response) => {
@@ -30,8 +32,20 @@ export default function TopBar() {
     };
   }, []);
 
-  const statusColor = online === null ? "var(--text-tertiary)" : online ? "var(--accent-green)" : "var(--accent-amber)";
-  const statusLabel = online === null ? "Connecting" : online ? "Engine online" : "Engine offline";
+  const statusColor = DEMO_MODE
+    ? "var(--accent-green)"
+    : online === null
+      ? "var(--text-tertiary)"
+      : online
+        ? "var(--accent-green)"
+        : "var(--accent-amber)";
+  const statusLabel = DEMO_MODE
+    ? "Live demo"
+    : online === null
+      ? "Connecting"
+      : online
+        ? "Engine online"
+        : "Engine offline";
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--line-hairline)] bg-[var(--bg-base)]/85 backdrop-blur-md">

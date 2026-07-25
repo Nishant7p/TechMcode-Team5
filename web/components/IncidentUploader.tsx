@@ -3,8 +3,8 @@
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { UploadCloud, FlaskConical, Loader2, AlertCircle, Sparkles, FileJson, X } from "lucide-react";
-import { analyzeIncident } from "../lib/api";
+import { UploadCloud, FlaskConical, Loader2, AlertCircle, Sparkles, FileJson, X, Info } from "lucide-react";
+import { analyzeIncident, DEMO_MODE, REFERENCE_INCIDENT_ID } from "../lib/api";
 import { IncidentReport } from "../lib/types";
 import AnalysisProgress from "./AnalysisProgress";
 
@@ -60,7 +60,14 @@ export default function IncidentUploader() {
     }
   };
 
+  const openReference = () => router.push(`/incident/${REFERENCE_INCIDENT_ID}`);
+
   const parseAndRun = (raw: string, label: string) => {
+    // Hosted demo has no live engine: showcase the worked reference incident.
+    if (DEMO_MODE) {
+      openReference();
+      return;
+    }
     let payload: UploadPayload;
     try {
       payload = JSON.parse(raw);
@@ -76,6 +83,10 @@ export default function IncidentUploader() {
   };
 
   const analyzeSample = async () => {
+    if (DEMO_MODE) {
+      openReference();
+      return;
+    }
     setBusy(true);
     setError(null);
     setRunLabel("Sample incident");
@@ -129,6 +140,16 @@ export default function IncidentUploader() {
         </div>
         <UploadCloud size={20} className="text-[var(--text-tertiary)] shrink-0" aria-hidden />
       </div>
+
+      {DEMO_MODE ? (
+        <div className="flex items-start gap-2 text-[11px] text-[var(--text-secondary)] bg-[var(--accent-blue)]/8 border border-[var(--accent-blue)]/25 rounded-[var(--radius-md)] px-3 py-2">
+          <Info size={13} className="text-[var(--accent-blue)] shrink-0 mt-px" aria-hidden />
+          <span>
+            This is the hosted demo. Live analysis of your own data runs on the causal engine backend
+            (see the repo to run it locally). Both actions below open the fully worked reference incident.
+          </span>
+        </div>
+      ) : null}
 
       <div
         onDragOver={(event) => {
