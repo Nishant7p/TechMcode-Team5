@@ -6,10 +6,15 @@
 ![Next.js](https://img.shields.io/badge/UI-Next.js%2015-000000?logo=next.js&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-300%2B%20passing-2ea44f)
 ![Determinism](https://img.shields.io/badge/ranking-deterministic-red)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-CausalOps-E50914?logo=vercel&logoColor=white)](https://tech-mcode-team5.vercel.app/)
 
 Ingests network telemetry, logs, alerts, topology, and configuration changes; detects anomalies across time windows; and produces **ranked, evidence-backed root-cause hypotheses**, distinguishing genuine **causation from mere correlation** by constraining inference to the physical network topology.
 
 Upload an incident (or your own dataset) and the system tells you **which component is the root cause**, **why** (with a three-tier evidence ledger), **how the fault propagated**, and **what to do next**, backed by a tamper-evident audit trail.
+
+> [!TIP]
+> **Live demo: [tech-mcode-team5.vercel.app](https://tech-mcode-team5.vercel.app/)**
+> The hosted app walks the full worked reference incident (`INC-1001`, a database connection-pool exhaustion cascading to the web tier): the topology graph, the ranked hypotheses, the three-tier evidence ledger, the propagation timeline, the agentic-RAG remediation, and the verifiable audit trail. Every panel is served from the **real engine's output**, so the link is always live with no setup. Running the project locally (see [Running locally](#running-locally)) additionally unlocks live analysis of your own uploaded incidents.
 
 > [!NOTE]
 > **Looking for more depth?** Two companion documents ship with this repository:
@@ -188,6 +193,8 @@ cd web && npx tsc --noEmit              # frontend type-check
 ```
 
 ## Using the application
+
+> The **[hosted demo](https://tech-mcode-team5.vercel.app/)** runs the worked reference incident end to end with no setup. To analyze your own bundles or run the full LLM investigation, start the project locally as above.
 
 From the landing page you can:
 
