@@ -1,11 +1,15 @@
 import hashlib
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 GENESIS_HASH = "0" * 64
-DEFAULT_AUDIT_LOG_PATH = Path(__file__).resolve().parents[3] / "incidents" / "audit_chain.jsonl"
+_STATE_DIR = os.getenv("RCA_STATE_DIR")
+DEFAULT_AUDIT_LOG_PATH = (
+    Path(_STATE_DIR) if _STATE_DIR else Path(__file__).resolve().parents[3] / "incidents"
+) / "audit_chain.jsonl"
 
 
 def ensure_audit_directory(file_path: Path) -> Path:

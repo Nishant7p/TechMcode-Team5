@@ -1,4 +1,5 @@
 import json
+import os
 from collections.abc import Callable
 from functools import lru_cache
 from pathlib import Path
@@ -9,7 +10,8 @@ from rca.agents.client import get_openai_client
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RUNBOOKS_PATH = REPO_ROOT / "knowledge" / "runbooks" / "runbooks.json"
 PAST_INCIDENTS_PATH = REPO_ROOT / "knowledge" / "incidents" / "past_incidents.json"
-CHROMA_DIR = REPO_ROOT / "knowledge" / ".chroma"
+_STATE_DIR = os.getenv("RCA_STATE_DIR")
+CHROMA_DIR = (Path(_STATE_DIR) / "chroma") if _STATE_DIR else (REPO_ROOT / "knowledge" / ".chroma")
 
 EMBED_MODEL = "text-embedding-3-small"
 RUNBOOK_COLLECTION = "noc_runbooks"

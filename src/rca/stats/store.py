@@ -1,8 +1,12 @@
 import json
+import os
 import threading
 from pathlib import Path
 
-USAGE_STATS_PATH = Path(__file__).resolve().parents[3] / "incidents" / "usage_stats.json"
+_STATE_DIR = os.getenv("RCA_STATE_DIR")
+USAGE_STATS_PATH = (
+    Path(_STATE_DIR) if _STATE_DIR else Path(__file__).resolve().parents[3] / "incidents"
+) / "usage_stats.json"
 _WRITE_LOCK = threading.Lock()
 _EMPTY_STATS = {"incidents_analyzed": 0, "nodes_analyzed": 0}
 
